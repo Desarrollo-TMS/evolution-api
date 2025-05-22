@@ -794,6 +794,20 @@ export class BusinessStartupService extends ChannelStartupService {
     return message;
   }
 
+  private getTemplateMessage(message: string, parameters: any[]) {
+    let transformedMessage = message;
+    for (const index in parameters) {
+      const parameter = parameters[index];
+      transformedMessage = transformedMessage.replace(`{{${index + 1}}}`, parameter.text);
+    }
+    return transformedMessage;
+  }
+
+  private getTemplateComponent(components: any[], name: string) {
+    const c = components.find((c) => c.type.toUpperCase() === name.toUpperCase());
+    return c ?? {};
+  }
+
   protected async eventHandler(content: any) {
     try {
       // Registro para depuración
@@ -1021,7 +1035,10 @@ export class BusinessStartupService extends ChannelStartupService {
             },
           };
           quoted ? (content.context = { message_id: quoted.id }) : content;
-          message = { conversation: message['template']['components']?.find((c) => c['type'] === 'BODY')?.['text'] ?? `▶️${message['template']['name']}◀️` };
+          const body = this.getTemplateComponent(message['template']['components'], 'body');
+          message = {
+            conversation: this.getTemplateMessage(message['template']['message'], body.parameters),
+          };
           return await this.post(content, 'messages');
         }
       })();
