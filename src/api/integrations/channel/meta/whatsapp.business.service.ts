@@ -934,7 +934,7 @@ export class BusinessStartupService extends ChannelStartupService {
             },
           };
           quoted ? (content.context = { message_id: quoted.id }) : content;
-          message = { conversation: `▶️${message['template']['name']}◀️` };
+          message = { conversation: message['template']['components']?.find((c) => c['type'] === 'BODY')?.['text'] ?? `▶️${message['template']['name']}◀️` };
           return await this.post(content, 'messages');
         }
       })();
