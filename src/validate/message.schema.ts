@@ -31,6 +31,7 @@ export const templateMessageSchema: JSONSchema7 = {
   properties: {
     number: { ...numberDefinition },
     name: { type: 'string' },
+    message: { type: 'string' },
     language: { type: 'string' },
     components: { type: 'array' },
     webhookUrl: { type: 'string' },
