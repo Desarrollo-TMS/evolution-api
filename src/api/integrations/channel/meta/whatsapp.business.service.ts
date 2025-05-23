@@ -797,10 +797,9 @@ export class BusinessStartupService extends ChannelStartupService {
   private getTemplateMessage(message: string, parameters: any[]) {
     if (!message || !parameters?.length) return;
     let transformedMessage = message;
-    for (const index in parameters) {
-      const parameter = parameters[index];
+    parameters.forEach((parameter, index) => {
       transformedMessage = transformedMessage.replace(`{{${index + 1}}}`, parameter.text);
-    }
+    })
     return transformedMessage;
   }
 
