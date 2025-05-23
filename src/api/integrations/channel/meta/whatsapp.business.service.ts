@@ -795,7 +795,7 @@ export class BusinessStartupService extends ChannelStartupService {
   }
 
   private getTemplateMessage(message: string, parameters: any[]) {
-    if (!message || !parameters) return;
+    if (!message || !parameters?.length) return;
     let transformedMessage = message;
     for (const index in parameters) {
       const parameter = parameters[index];
@@ -1037,9 +1037,11 @@ export class BusinessStartupService extends ChannelStartupService {
           };
           quoted ? (content.context = { message_id: quoted.id }) : content;
           const body = this.getTemplateComponent(message['template']['components'], 'body');
+          const templateMessage = this.getTemplateMessage(message['template']['message'], body.parameters)
+          this.logger.log({ body, templateMessage })
           message = {
             conversation:
-              this.getTemplateMessage(message['template']['message'], body.parameters) ??
+              templateMessage ??
               `▶️${message['template']['name']}◀️`,
           };
           return await this.post(content, 'messages');
