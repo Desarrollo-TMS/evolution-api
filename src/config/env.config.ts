@@ -95,6 +95,7 @@ export type EventsRabbitmq = {
 export type Rabbitmq = {
   ENABLED: boolean;
   URI: string;
+  FRAME_MAX: number;
   EXCHANGE_NAME: string;
   GLOBAL_ENABLED: boolean;
   EVENTS: EventsRabbitmq;
@@ -269,6 +270,7 @@ export type Openai = { ENABLED: boolean; API_KEY_GLOBAL?: string };
 export type Dify = { ENABLED: boolean };
 export type N8n = { ENABLED: boolean };
 export type Evoai = { ENABLED: boolean };
+export type Flowise = { ENABLED: boolean };
 
 export type S3 = {
   ACCESS_KEY: string;
@@ -310,6 +312,7 @@ export interface Env {
   DIFY: Dify;
   N8N: N8n;
   EVOAI: Evoai;
+  FLOWISE: Flowise;
   CACHE: CacheConf;
   S3?: S3;
   AUTHENTICATION: Auth;
@@ -391,6 +394,7 @@ export class ConfigService {
         PREFIX_KEY: process.env?.RABBITMQ_PREFIX_KEY,
         EXCHANGE_NAME: process.env?.RABBITMQ_EXCHANGE_NAME || 'evolution_exchange',
         URI: process.env.RABBITMQ_URI || '',
+        FRAME_MAX: Number.parseInt(process.env.RABBITMQ_FRAME_MAX) || 8192,
         EVENTS: {
           APPLICATION_STARTUP: process.env?.RABBITMQ_EVENTS_APPLICATION_STARTUP === 'true',
           INSTANCE_CREATE: process.env?.RABBITMQ_EVENTS_INSTANCE_CREATE === 'true',
@@ -623,6 +627,9 @@ export class ConfigService {
       },
       EVOAI: {
         ENABLED: process.env?.EVOAI_ENABLED === 'true',
+      },
+      FLOWISE: {
+        ENABLED: process.env?.FLOWISE_ENABLED === 'true',
       },
       CACHE: {
         REDIS: {
