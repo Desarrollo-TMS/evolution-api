@@ -719,7 +719,7 @@ export class BusinessStartupService extends ChannelStartupService {
 
     for (const index in parameters) {
       const parameter = parameters[index];
-      transformedMessage = transformedMessage.replace(`{{${index + 1}}}`, parameter.text);
+      transformedMessage = transformedMessage.replace(`{{${Number(index) + 1}}}`, parameter.text);
     }
     return transformedMessage;
   }
