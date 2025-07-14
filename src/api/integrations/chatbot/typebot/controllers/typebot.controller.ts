@@ -230,7 +230,7 @@ export class TypebotController extends BaseChatbotController<TypebotModel, Typeb
 
       // Use the original processTypebot method with all parameters
       await this.typebotService.processTypebot(
-        this.waMonitor.waInstances[instanceData.instanceName],
+        this.waMonitor.waInstances[instance.instanceName],
         remoteJid,
         null, // msg
         null, // session
